@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-pencil-square me-2"></i>Edit Category</h2>
+        <a href="/category" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/category/edit/<%= category._id %>" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="form-label" for="catName">Category Name <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="catName" name="name" class="form-control" value="<%= category.name %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="catDesc">Description</label>
+            <textarea id="catDesc" name="description" class="form-control" rows="3"><%= category.description %></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current Image</label>
+            <% if (category.image) { %>
+              <div class="mb-2">
+                <img src="/uploads/<%= category.image %>" alt="Current" class="img-preview">
+              </div>
+            <% } else { %>
+              <div style="background:#f8fafc;border:1px dashed #e2e8f0;border-radius:8px;padding:20px;text-align:center;color:#94a3b8;font-size:13px;margin-bottom:10px;">
+                <i class="bi bi-image" style="font-size:24px;display:block;margin-bottom:6px;"></i>No image
+              </div>
+            <% } %>
+            <label class="form-label mt-2">Replace Image</label>
+            <input type="file" id="catImage" name="image" class="form-control image-input-preview" data-preview="catImagePreview" accept="image/*">
+            <img id="catImagePreview" alt="Preview" class="img-preview mt-2" style="display:none;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div style="display:flex;gap:16px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;">
+                <input type="radio" name="status" value="active" <%= category.status === 'active' ? 'checked' : '' %> style="accent-color:#667eea;"> Active
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;">
+                <input type="radio" name="status" value="inactive" <%= category.status === 'inactive' ? 'checked' : '' %> style="accent-color:#667eea;"> Inactive
+              </label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Update Category</button>
+            <a href="/category" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

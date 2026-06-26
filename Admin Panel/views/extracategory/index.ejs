@@ -1,0 +1,112 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title"><i class="bi bi-diagram-3 me-2"></i>Extra Categories <span style="font-size:13px;font-weight:500;color:#94a3b8;">(<%= total %>)</span></h2>
+    <a href="/extracategory/add" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Add Extra Category</a>
+  </div>
+
+  <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+    <form method="GET" action="/extracategory" class="table-toolbar">
+      <div class="search-input-wrapper">
+        <i class="bi bi-search"></i>
+        <input type="text" name="search" class="search-input" placeholder="Search extra categories..." value="<%= search %>">
+      </div>
+      <select name="status" class="filter-select">
+        <option value="">All Status</option>
+        <option value="active" <%= status === 'active' ? 'selected' : '' %>>Active</option>
+        <option value="inactive" <%= status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+      </select>
+      <select name="sort" class="filter-select">
+        <option value="newest" <%= sort === 'newest' ? 'selected' : '' %>>Newest</option>
+        <option value="oldest" <%= sort === 'oldest' ? 'selected' : '' %>>Oldest</option>
+        <option value="az" <%= sort === 'az' ? 'selected' : '' %>>A → Z</option>
+        <option value="za" <%= sort === 'za' ? 'selected' : '' %>>Z → A</option>
+      </select>
+      <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-funnel"></i> Filter</button>
+      <a href="/extracategory" class="btn btn-outline btn-sm"><i class="bi bi-x-circle"></i> Clear</a>
+    </form>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Subcategory</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (extraCategories.length === 0) { %>
+          <tr>
+            <td colspan="8" style="text-align:center;padding:40px;color:#94a3b8;">
+              <i class="bi bi-inbox" style="font-size:32px;display:block;margin-bottom:10px;"></i>
+              No extra categories found
+            </td>
+          </tr>
+        <% } %>
+        <% extraCategories.forEach((extra, i) => { %>
+          <tr>
+            <td><span style="font-size:12px;color:#94a3b8;font-weight:600;"><%= ((currentPage - 1) * 10) + i + 1 %></span></td>
+            <td>
+              <% if (extra.image) { %>
+                <img src="/uploads/<%= extra.image %>" alt="" class="img-thumbnail-sm">
+              <% } else { %>
+                <div style="width:44px;height:44px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:18px;"><i class="bi bi-image"></i></div>
+              <% } %>
+            </td>
+            <td><span style="font-weight:600;color:#1e293b;"><%= extra.name %></span></td>
+            <td>
+              <% if (extra.subcategory) { %>
+                <span style="background:#fef3c7;color:#92400e;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;"><%= extra.subcategory.name %></span>
+              <% } %>
+            </td>
+            <td>
+              <% if (extra.category) { %>
+                <span style="background:#e0e7ff;color:#4338ca;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;"><%= extra.category.name %></span>
+              <% } %>
+            </td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <label class="toggle-switch">
+                  <input type="checkbox" class="status-toggle" data-id="<%= extra._id %>" data-url="/extracategory/toggle-status/<%= extra._id %>" <%= extra.status === 'active' ? 'checked' : '' %>>
+                  <span class="toggle-slider"></span>
+                </label>
+                <span class="status-badge <%= extra.status %>" id="badge-<%= extra._id %>"><%= extra.status %></span>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:#94a3b8;"><%= new Date(extra.createdAt).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) %></span></td>
+            <td>
+              <div style="display:flex;gap:4px;">
+                <a href="/extracategory/edit/<%= extra._id %>" class="btn btn-warning btn-sm btn-icon"><i class="bi bi-pencil"></i></a>
+                <form method="POST" action="/extracategory/delete/<%= extra._id %>" class="delete-form" data-name="<%= extra.name %>">
+                  <button type="submit" class="btn btn-danger btn-sm btn-icon"><i class="bi bi-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (totalPages > 1) { %>
+    <div class="pagination-wrapper">
+      <span class="pagination-info">Showing <%= ((currentPage - 1) * 10) + 1 %>–<%= Math.min(currentPage * 10, total) %> of <%= total %></span>
+      <div class="pagination">
+        <a href="/extracategory?page=<%= currentPage - 1 %>&search=<%= search %>&sort=<%= sort %>&status=<%= status %>"
+          class="page-link <%= currentPage <= 1 ? 'disabled' : '' %>"><i class="bi bi-chevron-left"></i></a>
+        <% for (let p = 1; p <= totalPages; p++) { %>
+          <a href="/extracategory?page=<%= p %>&search=<%= search %>&sort=<%= sort %>&status=<%= status %>"
+            class="page-link <%= p === currentPage ? 'active' : '' %>"><%= p %></a>
+        <% } %>
+        <a href="/extracategory?page=<%= currentPage + 1 %>&search=<%= search %>&sort=<%= sort %>&status=<%= status %>"
+          class="page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </div>
+  <% } %>
+</div>

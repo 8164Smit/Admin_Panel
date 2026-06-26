@@ -1,0 +1,69 @@
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+    <div>
+      <div class="brand-text">AdminPanel</div>
+      <div class="brand-sub">Control Center</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Main</div>
+    <a href="/dashboard" class="sidebar-nav-item <%= currentPath === '/dashboard' || currentPath === '/' ? 'active' : '' %>">
+      <i class="bi bi-speedometer2"></i>
+      <span>Dashboard</span>
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Catalog</div>
+    <a href="/category" class="sidebar-nav-item <%= currentPath.startsWith('/category') ? 'active' : '' %>">
+      <i class="bi bi-tag"></i>
+      <span>Categories</span>
+    </a>
+    <a href="/subcategory" class="sidebar-nav-item <%= currentPath.startsWith('/subcategory') ? 'active' : '' %>">
+      <i class="bi bi-tags"></i>
+      <span>Subcategories</span>
+    </a>
+    <a href="/extracategory" class="sidebar-nav-item <%= currentPath.startsWith('/extracategory') ? 'active' : '' %>">
+      <i class="bi bi-diagram-3"></i>
+      <span>Extra Categories</span>
+    </a>
+    <a href="/product" class="sidebar-nav-item <%= currentPath.startsWith('/product') ? 'active' : '' %>">
+      <i class="bi bi-box-seam"></i>
+      <span>Products</span>
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Account</div>
+    <a href="/profile" class="sidebar-nav-item <%= currentPath === '/profile' ? 'active' : '' %>">
+      <i class="bi bi-person-circle"></i>
+      <span>My Profile</span>
+    </a>
+    <a href="/profile/change-password" class="sidebar-nav-item <%= currentPath === '/profile/change-password' ? 'active' : '' %>">
+      <i class="bi bi-shield-lock"></i>
+      <span>Change Password</span>
+    </a>
+    <a href="/auth/logout" class="sidebar-nav-item">
+      <i class="bi bi-box-arrow-right"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <% if (admin && admin.profilePhoto) { %>
+        <img src="/uploads/<%= admin.profilePhoto %>" alt="Avatar" class="sidebar-user-avatar">
+      <% } else { %>
+        <div class="sidebar-user-avatar">
+          <%= admin ? admin.name.charAt(0).toUpperCase() : 'A' %>
+        </div>
+      <% } %>
+      <div class="sidebar-user-info">
+        <div class="name"><%= admin ? admin.name : 'Admin' %></div>
+        <div class="role">Administrator</div>
+      </div>
+    </div>
+  </div>
+</aside>

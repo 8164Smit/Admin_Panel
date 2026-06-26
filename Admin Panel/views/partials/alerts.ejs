@@ -1,0 +1,50 @@
+<div class="alert-container">
+  <% if (success && success.length > 0) { %>
+    <% success.forEach(msg => { %>
+      <div class="alert-toast success">
+        <i class="bi bi-check-circle-fill alert-toast-icon"></i>
+        <div class="alert-toast-content">
+          <div class="alert-title">Success</div>
+          <div class="alert-msg"><%= msg %></div>
+        </div>
+        <button class="alert-close"><i class="bi bi-x"></i></button>
+      </div>
+    <% }) %>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <% error.forEach(msg => { %>
+      <div class="alert-toast error">
+        <i class="bi bi-x-circle-fill alert-toast-icon"></i>
+        <div class="alert-toast-content">
+          <div class="alert-title">Error</div>
+          <div class="alert-msg"><%= msg %></div>
+        </div>
+        <button class="alert-close"><i class="bi bi-x"></i></button>
+      </div>
+    <% }) %>
+  <% } %>
+  <% if (warning && warning.length > 0) { %>
+    <% warning.forEach(msg => { %>
+      <div class="alert-toast warning">
+        <i class="bi bi-exclamation-triangle-fill alert-toast-icon"></i>
+        <div class="alert-toast-content">
+          <div class="alert-title">Warning</div>
+          <div class="alert-msg"><%= msg %></div>
+        </div>
+        <button class="alert-close"><i class="bi bi-x"></i></button>
+      </div>
+    <% }) %>
+  <% } %>
+  <% if (info && info.length > 0) { %>
+    <% info.forEach(msg => { %>
+      <div class="alert-toast info">
+        <i class="bi bi-info-circle-fill alert-toast-icon"></i>
+        <div class="alert-toast-content">
+          <div class="alert-title">Info</div>
+          <div class="alert-msg"><%= msg %></div>
+        </div>
+        <button class="alert-close"><i class="bi bi-x"></i></button>
+      </div>
+    <% }) %>
+  <% } %>
+</div>

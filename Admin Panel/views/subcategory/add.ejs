@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-plus-circle me-2"></i>Add Subcategory</h2>
+        <a href="/subcategory" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/subcategory/add" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="form-label" for="subCat">Parent Category <span style="color:#ef4444;">*</span></label>
+            <select id="subCat" name="category" class="form-select" required>
+              <option value="">-- Select Category --</option>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat._id %>"><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subName">Subcategory Name <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="subName" name="name" class="form-control" placeholder="e.g. Mobile Phones" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subDesc">Description</label>
+            <textarea id="subDesc" name="description" class="form-control" rows="3" placeholder="Brief description..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subImage">Image</label>
+            <input type="file" id="subImage" name="image" class="form-control image-input-preview" data-preview="subImagePreview" accept="image/*">
+            <img id="subImagePreview" alt="Preview" class="img-preview mt-2" style="display:none;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div style="display:flex;gap:16px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="active" checked style="accent-color:#667eea;"> Active</label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="inactive" style="accent-color:#667eea;"> Inactive</label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Save Subcategory</button>
+            <a href="/subcategory" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

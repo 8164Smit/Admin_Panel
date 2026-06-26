@@ -1,0 +1,115 @@
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-plus-circle me-2"></i>Add New Product</h2>
+        <a href="/product" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/product/add" enctype="multipart/form-data">
+
+          <div style="background:#f8fafc;border-radius:10px;padding:20px;margin-bottom:20px;">
+            <h3 style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:16px;"><i class="bi bi-diagram-3 me-2" style="color:#667eea;"></i>Category Relationships</h3>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Category <span style="color:#ef4444;">*</span></label>
+                <select id="categorySelect" name="category" class="form-select" required>
+                  <option value="">-- Select Category --</option>
+                  <% categories.forEach(cat => { %>
+                    <option value="<%= cat._id %>"><%= cat.name %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Subcategory <span style="color:#ef4444;">*</span></label>
+                <select id="subcategorySelect" name="subcategory" class="form-select" required>
+                  <option value="">-- Select Category First --</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Extra Category</label>
+                <select id="extraCategorySelect" name="extraCategory" class="form-select">
+                  <option value="">-- Optional --</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#f8fafc;border-radius:10px;padding:20px;margin-bottom:20px;">
+            <h3 style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:16px;"><i class="bi bi-info-circle me-2" style="color:#667eea;"></i>Basic Information</h3>
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label class="form-label">Product Name <span style="color:#ef4444;">*</span></label>
+                <input type="text" name="name" class="form-control" placeholder="e.g. Samsung Galaxy S24 Ultra" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Brand</label>
+                <input type="text" name="brand" class="form-control" placeholder="e.g. Samsung">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">SKU</label>
+                <input type="text" name="sku" class="form-control" placeholder="e.g. SAM-S24-001">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Price ($) <span style="color:#ef4444;">*</span></label>
+                <input type="number" name="price" class="form-control" placeholder="0.00" min="0" step="0.01" required>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Discount (%)</label>
+                <input type="number" name="discount" class="form-control" placeholder="0" min="0" max="100" value="0">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Stock</label>
+                <input type="number" name="stock" class="form-control" placeholder="0" min="0" value="0">
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#f8fafc;border-radius:10px;padding:20px;margin-bottom:20px;">
+            <h3 style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:16px;"><i class="bi bi-text-paragraph me-2" style="color:#667eea;"></i>Details</h3>
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="4" placeholder="Product description..."></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Features</label>
+                <textarea name="features" class="form-control" rows="3" placeholder="Key features, one per line..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#f8fafc;border-radius:10px;padding:20px;margin-bottom:20px;">
+            <h3 style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:16px;"><i class="bi bi-images me-2" style="color:#667eea;"></i>Images</h3>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Main Image</label>
+                <input type="file" name="mainImage" class="form-control image-input-preview" data-preview="mainImgPreview" accept="image/*">
+                <p class="form-text">This will be the primary product image.</p>
+                <img id="mainImgPreview" alt="Main preview" class="img-preview mt-2" style="display:none;">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Additional Images</label>
+                <input type="file" name="images" class="form-control" accept="image/*" multiple>
+                <p class="form-text">Select multiple images (max 10).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div style="display:flex;gap:16px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="active" checked style="accent-color:#667eea;"> Active</label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="inactive" style="accent-color:#667eea;"> Inactive</label>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Save Product</button>
+            <a href="/product" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

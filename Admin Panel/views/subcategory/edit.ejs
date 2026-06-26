@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-pencil-square me-2"></i>Edit Subcategory</h2>
+        <a href="/subcategory" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/subcategory/edit/<%= sub._id %>" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="form-label" for="subCat">Parent Category <span style="color:#ef4444;">*</span></label>
+            <select id="subCat" name="category" class="form-select" required>
+              <option value="">-- Select Category --</option>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat._id %>" <%= sub.category && sub.category.toString() === cat._id.toString() ? 'selected' : '' %>><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subName">Subcategory Name <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="subName" name="name" class="form-control" value="<%= sub.name %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subDesc">Description</label>
+            <textarea id="subDesc" name="description" class="form-control" rows="3"><%= sub.description %></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current Image</label>
+            <% if (sub.image) { %>
+              <div class="mb-2"><img src="/uploads/<%= sub.image %>" alt="Current" class="img-preview"></div>
+            <% } %>
+            <label class="form-label">Replace Image</label>
+            <input type="file" id="subImage" name="image" class="form-control image-input-preview" data-preview="subImagePreview" accept="image/*">
+            <img id="subImagePreview" alt="Preview" class="img-preview mt-2" style="display:none;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div style="display:flex;gap:16px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="active" <%= sub.status === 'active' ? 'checked' : '' %> style="accent-color:#667eea;"> Active</label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="inactive" <%= sub.status === 'inactive' ? 'checked' : '' %> style="accent-color:#667eea;"> Inactive</label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Update Subcategory</button>
+            <a href="/subcategory" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

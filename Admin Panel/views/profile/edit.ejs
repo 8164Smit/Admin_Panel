@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-pencil-square me-2"></i>Edit Profile</h2>
+        <a href="/profile" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/profile/edit" enctype="multipart/form-data">
+          <div style="text-align:center;margin-bottom:24px;">
+            <div style="position:relative;display:inline-block;">
+              <% if (admin.profilePhoto) { %>
+                <img src="/uploads/<%= admin.profilePhoto %>" id="profilePreview" alt="Profile" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #667eea;">
+              <% } else { %>
+                <div id="profilePlaceholder" style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:white;">
+                  <%= admin.name.charAt(0).toUpperCase() %>
+                </div>
+                <img id="profilePreview" alt="Profile" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #667eea;display:none;">
+              <% } %>
+              <label for="profilePhoto" style="position:absolute;bottom:2px;right:2px;width:28px;height:28px;background:#667eea;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:13px;">
+                <i class="bi bi-camera-fill"></i>
+              </label>
+            </div>
+            <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" class="image-input-preview" data-preview="profilePreview" style="display:none;">
+            <p style="font-size:12px;color:#94a3b8;margin-top:10px;">Click camera icon to change photo</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editName">Full Name</label>
+            <input type="text" id="editName" name="name" class="form-control" value="<%= admin.name %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editEmail">Email Address</label>
+            <input type="email" id="editEmail" name="email" class="form-control" value="<%= admin.email %>" required>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Save Changes</button>
+            <a href="/profile" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

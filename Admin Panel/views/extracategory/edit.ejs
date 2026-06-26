@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-pencil-square me-2"></i>Edit Extra Category</h2>
+        <a href="/extracategory" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/extracategory/edit/<%= extra._id %>" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="form-label" for="categorySelect">Parent Category <span style="color:#ef4444;">*</span></label>
+            <select id="categorySelect" name="category" class="form-select" required>
+              <option value="">-- Select Category --</option>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat._id %>" <%= extra.category && extra.category.toString() === cat._id.toString() ? 'selected' : '' %>><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subcategorySelect">Subcategory <span style="color:#ef4444;">*</span></label>
+            <select id="subcategorySelect" name="subcategory" class="form-select" required>
+              <% subcategories.forEach(sub => { %>
+                <option value="<%= sub._id %>" <%= extra.subcategory && extra.subcategory.toString() === sub._id.toString() ? 'selected' : '' %>><%= sub.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="extraName">Extra Category Name <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="extraName" name="name" class="form-control" value="<%= extra.name %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="extraDesc">Description</label>
+            <textarea id="extraDesc" name="description" class="form-control" rows="3"><%= extra.description %></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Current Image</label>
+            <% if (extra.image) { %>
+              <div class="mb-2"><img src="/uploads/<%= extra.image %>" alt="Current" class="img-preview"></div>
+            <% } %>
+            <label class="form-label">Replace Image</label>
+            <input type="file" name="image" class="form-control image-input-preview" data-preview="extraImagePreview" accept="image/*">
+            <img id="extraImagePreview" alt="Preview" class="img-preview mt-2" style="display:none;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div style="display:flex;gap:16px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="active" <%= extra.status === 'active' ? 'checked' : '' %> style="accent-color:#667eea;"> Active</label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="inactive" <%= extra.status === 'inactive' ? 'checked' : '' %> style="accent-color:#667eea;"> Inactive</label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Update</button>
+            <a href="/extracategory" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

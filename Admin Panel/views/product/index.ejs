@@ -1,0 +1,130 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title"><i class="bi bi-box-seam me-2"></i>All Products <span style="font-size:13px;font-weight:500;color:#94a3b8;">(<%= total %>)</span></h2>
+    <a href="/product/add" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Add Product</a>
+  </div>
+
+  <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+    <form method="GET" action="/product" class="table-toolbar">
+      <div class="search-input-wrapper">
+        <i class="bi bi-search"></i>
+        <input type="text" name="search" class="search-input" placeholder="Search products..." value="<%= search %>">
+      </div>
+      <select name="status" class="filter-select">
+        <option value="">All Status</option>
+        <option value="active" <%= status === 'active' ? 'selected' : '' %>>Active</option>
+        <option value="inactive" <%= status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+      </select>
+      <select name="sort" class="filter-select">
+        <option value="newest" <%= sort === 'newest' ? 'selected' : '' %>>Newest</option>
+        <option value="oldest" <%= sort === 'oldest' ? 'selected' : '' %>>Oldest</option>
+        <option value="az" <%= sort === 'az' ? 'selected' : '' %>>A → Z</option>
+        <option value="za" <%= sort === 'za' ? 'selected' : '' %>>Z → A</option>
+        <option value="price_asc" <%= sort === 'price_asc' ? 'selected' : '' %>>Price ↑</option>
+        <option value="price_desc" <%= sort === 'price_desc' ? 'selected' : '' %>>Price ↓</option>
+      </select>
+      <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-funnel"></i> Filter</button>
+      <a href="/product" class="btn btn-outline btn-sm"><i class="bi bi-x-circle"></i> Clear</a>
+    </form>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Brand</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (products.length === 0) { %>
+          <tr>
+            <td colspan="8" style="text-align:center;padding:40px;color:#94a3b8;">
+              <i class="bi bi-inbox" style="font-size:32px;display:block;margin-bottom:10px;"></i>
+              No products found
+            </td>
+          </tr>
+        <% } %>
+        <% products.forEach((p, i) => { %>
+          <tr>
+            <td><span style="font-size:12px;color:#94a3b8;font-weight:600;"><%= ((currentPage - 1) * 10) + i + 1 %></span></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <% if (p.mainImage) { %>
+                  <img src="/uploads/<%= p.mainImage %>" alt="" class="img-thumbnail-sm">
+                <% } else { %>
+                  <div style="width:44px;height:44px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:18px;"><i class="bi bi-image"></i></div>
+                <% } %>
+                <div>
+                  <div style="font-weight:700;font-size:13.5px;color:#1e293b;"><%= p.name %></div>
+                  <div style="font-size:11px;color:#94a3b8;">SKU: <%= p.sku || 'N/A' %></div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <% if (p.category) { %>
+                <div style="font-size:12px;">
+                  <span style="background:#e0e7ff;color:#4338ca;font-weight:600;padding:2px 7px;border-radius:4px;font-size:11px;"><%= p.category.name %></span>
+                  <% if (p.subcategory) { %>
+                    <div style="color:#94a3b8;margin-top:3px;font-size:11px;"><%= p.subcategory.name %></div>
+                  <% } %>
+                </div>
+              <% } %>
+            </td>
+            <td><span style="font-size:12.5px;color:#64748b;"><%= p.brand || '—' %></span></td>
+            <td>
+              <div>
+                <span style="font-weight:800;color:#667eea;font-size:14px;">$<%= p.price %></span>
+                <% if (p.discount > 0) { %>
+                  <span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:4px;"><%= p.discount %>% OFF</span>
+                <% } %>
+              </div>
+            </td>
+            <td>
+              <span style="font-size:13px;font-weight:700;color:<%= p.stock <= 5 ? '#ef4444' : '#10b981' %>"><%= p.stock %></span>
+            </td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <label class="toggle-switch">
+                  <input type="checkbox" class="status-toggle" data-id="<%= p._id %>" data-url="/product/toggle-status/<%= p._id %>" <%= p.status === 'active' ? 'checked' : '' %>>
+                  <span class="toggle-slider"></span>
+                </label>
+                <span class="status-badge <%= p.status %>" id="badge-<%= p._id %>"><%= p.status %></span>
+              </div>
+            </td>
+            <td>
+              <div style="display:flex;gap:4px;">
+                <a href="/product/edit/<%= p._id %>" class="btn btn-warning btn-sm btn-icon"><i class="bi bi-pencil"></i></a>
+                <form method="POST" action="/product/delete/<%= p._id %>" class="delete-form" data-name="<%= p.name %>">
+                  <button type="submit" class="btn btn-danger btn-sm btn-icon"><i class="bi bi-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (totalPages > 1) { %>
+    <div class="pagination-wrapper">
+      <span class="pagination-info">Showing <%= ((currentPage - 1) * 10) + 1 %>–<%= Math.min(currentPage * 10, total) %> of <%= total %></span>
+      <div class="pagination">
+        <a href="/product?page=<%= currentPage - 1 %>&search=<%= search %>&sort=<%= sort %>&status=<%= status %>"
+          class="page-link <%= currentPage <= 1 ? 'disabled' : '' %>"><i class="bi bi-chevron-left"></i></a>
+        <% for (let p = 1; p <= totalPages; p++) { %>
+          <a href="/product?page=<%= p %>&search=<%= search %>&sort=<%= sort %>&status=<%= status %>"
+            class="page-link <%= p === currentPage ? 'active' : '' %>"><%= p %></a>
+        <% } %>
+        <a href="/product?page=<%= currentPage + 1 %>&search=<%= search %>&sort=<%= sort %>&status=<%= status %>"
+          class="page-link <%= currentPage >= totalPages ? 'disabled' : '' %>"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </div>
+  <% } %>
+</div>

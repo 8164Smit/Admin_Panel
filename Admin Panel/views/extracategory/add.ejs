@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><i class="bi bi-plus-circle me-2"></i>Add Extra Category</h2>
+        <a href="/extracategory" class="btn btn-outline btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/extracategory/add" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="form-label" for="categorySelect">Parent Category <span style="color:#ef4444;">*</span></label>
+            <select id="categorySelect" name="category" class="form-select" required>
+              <option value="">-- Select Category --</option>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat._id %>"><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subcategorySelect">Subcategory <span style="color:#ef4444;">*</span></label>
+            <select id="subcategorySelect" name="subcategory" class="form-select" required>
+              <option value="">-- Select Category First --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="extraName">Extra Category Name <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="extraName" name="name" class="form-control" placeholder="e.g. Gaming Laptops" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="extraDesc">Description</label>
+            <textarea id="extraDesc" name="description" class="form-control" rows="3" placeholder="Brief description..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="extraImage">Image</label>
+            <input type="file" id="extraImage" name="image" class="form-control image-input-preview" data-preview="extraImagePreview" accept="image/*">
+            <img id="extraImagePreview" alt="Preview" class="img-preview mt-2" style="display:none;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div style="display:flex;gap:16px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="active" checked style="accent-color:#667eea;"> Active</label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px;"><input type="radio" name="status" value="inactive" style="accent-color:#667eea;"> Inactive</label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check2"></i> Save Extra Category</button>
+            <a href="/extracategory" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
